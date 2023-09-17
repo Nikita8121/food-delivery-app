@@ -1,0 +1,15 @@
+{
+  "collectionName": "components_dish_components_prices",
+  "info": {
+    "displayName": "price"
+  },
+  "options": {},
+  "attributes": {
+    "size": {
+      "type": "string"
+    },
+    "price": {
+      "type": "decimal"
+    }
+  }
+}
