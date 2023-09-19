@@ -34,7 +34,7 @@ const api = {
       apiInstance
         .get(url, options)
         .then((response: any) => {
-          resolve(response.data.data as T);
+          resolve(response.data as T);
         })
         .catch((response: any) => {
           reject(response);
@@ -85,7 +85,7 @@ const api = {
       apiInstance
         .patch(url, payload, options)
         .then((response: any) => {
-          resolve(response.data.data as T);
+          resolve(response.data as T);
         })
         .catch((response: any) => {
           reject(response);

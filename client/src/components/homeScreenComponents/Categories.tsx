@@ -1,28 +1,22 @@
-import { useCallback, useState } from 'react';
-import {
-  View,
-  Text,
-  ScrollView,
-  TouchableOpacity,
-  Image,
-} from 'react-native';
+import { useCallback, useEffect, useState } from 'react';
+import { View, Text, ScrollView, TouchableOpacity, Image } from 'react-native';
 
-import ContentLoader, {
-  Circle,
-} from 'react-content-loader/native';
+import ContentLoader, { Circle } from 'react-content-loader/native';
 import { themeColors } from 'src/theme';
 import { useCategoryQuery } from 'src/api/category.api';
 
 interface CategoriesProps {
-  
+  setCategory: (category: string) => void;
 }
 
-export const Categories = ({} : CategoriesProps) => {
+export const Categories = ({ setCategory }: CategoriesProps) => {
   const { data: categories, isLoading: isCategoriesLoading } =
     useCategoryQuery();
   const [activeCategory, setActiveCategory] = useState('');
 
-  
+  useEffect(() => {
+    setCategory(activeCategory);
+  }, [activeCategory]);
 
   const CategoriesLoader = useCallback(
     () => (

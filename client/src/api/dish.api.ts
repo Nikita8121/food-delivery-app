@@ -1,11 +1,18 @@
 import api from 'src/lib/api.instance';
-import { PaginationParams } from './utils/types';
-import { DishDto } from './utils/DTOs';
-import { mapDish, mapMany } from './utils/mappers';
+import { DataWithPagiantion, PaginationParams } from './utils/types';
+import { DishDto, ResponseDto } from './utils/DTOs';
+import { mapDataWithPagination, mapDish, mapMany } from './utils/mappers';
+import {
+  UseInfiniteQueryOptions,
+  UseQueryOptions,
+  useInfiniteQuery,
+  useQuery,
+} from '@tanstack/react-query';
+import { IDish } from 'src/models/dish.model';
 
 const url = 'dishes/';
 
-export const getDish = async (id: number) => {
+const getDish = async (id: number) => {
   const data = await api.get<DishDto[]>(`${url}dishes`, {
     params: {
       id,
@@ -16,13 +23,12 @@ export const getDish = async (id: number) => {
   return mapDish(data[0]);
 };
 
-export const getDishesByCategory = async (
+const getDishesByCategory = async (
   category: string,
-  { page = 1, pageSize = 10 }: PaginationParams
+  { page = 0, pageSize = 10 }: PaginationParams
 ) => {
-  const data = await api.get<DishDto[]>(`${url}dishes`, {
+  const data = await api.get<ResponseDto<DishDto[]>>(`${url}dishes`, {
     params: {
-      populate: 'categories',
       page,
       pageSize,
       categories: {
@@ -30,5 +36,28 @@ export const getDishesByCategory = async (
       },
     },
   });
-  return mapMany(data, mapDish);
+  return mapDataWithPagination(
+    mapMany(data.data, mapDish),
+    data.meta?.pagination
+  );
 };
+
+export const useGetDish = (id: number, options?: UseQueryOptions<IDish>) =>
+  useQuery<IDish>({
+    queryKey: ['dish', id],
+    queryFn: () => getDish(id),
+    ...options,
+  });
+
+export const useGetDishesByCategory = (
+  category: string,
+  options?: UseInfiniteQueryOptions<DataWithPagiantion<IDish[]>>
+) =>
+  useInfiniteQuery<DataWithPagiantion<IDish[]>>({
+    queryKey: ['dishes', category],
+    queryFn: ({ pageParam = 0 }) =>
+      getDishesByCategory(category, { page: pageParam, pageSize: 10 }),
+    getNextPageParam: (lastPage, allPages) =>
+      (lastPage.pagination?.page as number) + 1,
+    ...options,
+  });

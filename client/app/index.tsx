@@ -1,14 +1,13 @@
-import React, { useEffect } from 'react';
-import { View, Text, StatusBar, ScrollView } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { StatusBar, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-
 import { Categories } from 'src/components/homeScreenComponents/Categories';
-import { DishCard } from 'src/components/homeScreenComponents/DishComponents/DishCard';
+import { DishList } from 'src/components/homeScreenComponents/DishComponents/DishList';
 import { SearchBar } from 'src/components/homeScreenComponents/SearchBar';
 
 function HomeScreen() {
-  
+  const [category, setCategory] = useState<string>('');
 
   return (
     <>
@@ -26,12 +25,10 @@ function HomeScreen() {
           className="overflow-auto"
         >
           {/* categories */}
-          <Categories/>
+          <Categories setCategory={setCategory} />
 
           {/* dishes */}
-          <View className="mt-10 px-4">
-            <DishCard />
-          </View>
+          <DishList />
         </ScrollView>
       </SafeAreaView>
     </>

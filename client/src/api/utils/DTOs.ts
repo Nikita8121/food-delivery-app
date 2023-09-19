@@ -1,3 +1,15 @@
+export interface ResponseDto<T> {
+  data: T;
+  meta: {
+    pagination?: {
+      page: number;
+      pageSize: number;
+      pageCount: number;
+      total: number;
+    };
+  };
+}
+
 export interface FileDto {
   id: number;
   attributes: {
@@ -18,6 +30,17 @@ export interface CategoryDto {
     updatedAt: string;
     categoryIcon: {
       data: FileDto;
+    };
+  };
+}
+
+export interface PaginationDto {
+  meta: {
+    pagination: {
+      page: number;
+      pageSize: number;
+      pageCount: number;
+      total: number;
     };
   };
 }

@@ -1,6 +1,6 @@
 import api from 'src/lib/api.instance';
 import { mapCategory } from './utils/mappers';
-import { CategoryDto } from './utils/DTOs';
+import { CategoryDto, ResponseDto } from './utils/DTOs';
 import { UseQueryOptions, useQuery } from '@tanstack/react-query';
 import { ICategory } from 'src/models/category.model';
 
@@ -11,12 +11,12 @@ const mapCategories = (dto: CategoryDto[]) => {
 };
 
 const getCategories = async () => {
-  const data = await api.get<CategoryDto[]>(`${url}`, {
+  const data = await api.get<ResponseDto<CategoryDto[]>>(`${url}`, {
     params: {
       populate: 'categoryIcon',
     },
   });
-  return mapCategories(data);
+  return mapCategories(data.data);
 };
 
 export const useCategoryQuery = (options?: UseQueryOptions<ICategory[]>) =>

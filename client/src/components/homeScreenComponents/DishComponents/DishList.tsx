@@ -1,6 +1,6 @@
 import React from 'react';
-import { View } from 'react-native';
+import { ScrollView, View } from 'react-native';
 
 export const DishList = () => {
-  return <View></View>;
+  return <ScrollView showsVerticalScrollIndicator={false}></ScrollView>;
 };

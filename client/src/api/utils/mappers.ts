@@ -1,7 +1,7 @@
 import { IFile } from 'src/models/file.model';
 import { SERVER_URL } from '@env';
 import { ICategory } from 'src/models/category.model';
-import { CategoryDto, DishDto, FileDto } from './DTOs';
+import { CategoryDto, DishDto, FileDto, ResponseDto } from './DTOs';
 import { IDish } from 'src/models/dish.model';
 
 export const mapFile = (dto: FileDto): IFile => {
@@ -18,6 +18,16 @@ export const mapFile = (dto: FileDto): IFile => {
 
 export const mapMany = <T, U>(arrayDtos: T[], mapper: (DishDto: T) => U) => {
   return arrayDtos.map((el) => mapper(el));
+};
+
+export const mapDataWithPagination = <T>(
+  data: T,
+  paginationData: ResponseDto<T>['meta']['pagination']
+) => {
+  return {
+    data,
+    pagination: paginationData,
+  };
 };
 
 export const mapCategory = (dto: CategoryDto): ICategory => {

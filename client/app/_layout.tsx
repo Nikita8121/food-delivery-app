@@ -2,7 +2,7 @@ import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useCallback, useEffect } from 'react';
-import { QueryClientProvider } from 'src/providers/QueryClientProvider';
+import { QueryClientProvider } from 'src/lib/react-query/QueryClientProvider';
 
 SplashScreen.preventAutoHideAsync();
 
