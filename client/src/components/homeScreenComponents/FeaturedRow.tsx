@@ -1,7 +1,7 @@
 import { View, Text } from 'react-native';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import { themeColors } from 'src/theme/index';
-import { RestarauntCard } from './RestarauntCard';
+import { RestarauntCard } from './DishCard';
 
 interface FeaturedRowProps {
   title: string;

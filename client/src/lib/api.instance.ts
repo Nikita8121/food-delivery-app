@@ -4,6 +4,7 @@ import { API_BASE, API_TOKEN } from '@env';
 export const apiInstance = axios.create({
   baseURL: API_BASE,
   headers: {
+    'content-Type': 'application/json',
     Authorization: 'Bearer ' + API_TOKEN,
   },
 });
@@ -30,10 +31,10 @@ const api = {
       // extract the individual parameters
 
       // finally execute the GET request with axios:
-      axios
+      apiInstance
         .get(url, options)
         .then((response: any) => {
-          resolve(response.data as T);
+          resolve(response.data.data as T);
         })
         .catch((response: any) => {
           reject(response);
@@ -47,10 +48,10 @@ const api = {
   ): Promise<T> {
     return new Promise<T>((resolve, reject) => {
       // finally execute the GET request with axios:
-      axios
+      apiInstance
         .post(url, payload, options)
         .then((response: any) => {
-          resolve(response.data as T);
+          resolve(response.data.data as T);
         })
         .catch((response: any) => {
           reject(response);
@@ -64,10 +65,10 @@ const api = {
   ): Promise<T> {
     return new Promise<T>((resolve, reject) => {
       // finally execute the GET request with axios:
-      axios
+      apiInstance
         .put(url, payload, options)
         .then((response: any) => {
-          resolve(response.data as T);
+          resolve(response.data.data as T);
         })
         .catch((response: any) => {
           reject(response);
@@ -81,10 +82,10 @@ const api = {
   ): Promise<T> {
     return new Promise<T>((resolve, reject) => {
       // finally execute the GET request with axios:
-      axios
+      apiInstance
         .patch(url, payload, options)
         .then((response: any) => {
-          resolve(response.data as T);
+          resolve(response.data.data as T);
         })
         .catch((response: any) => {
           reject(response);
@@ -96,7 +97,7 @@ const api = {
       // extract the individual parameters
 
       // finally execute the GET request with axios:
-      axios
+      apiInstance
         .delete(url, options)
         .then((response: any) => {
           resolve(response.data as T);

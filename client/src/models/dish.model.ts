@@ -6,5 +6,5 @@ export interface IDish extends IBase {
   description: string;
   cookingTimeText: string;
   calories: string;
-  categories?: ICategory;
+  categories: ICategory[];
 }

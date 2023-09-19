@@ -3,5 +3,5 @@ import { IFile } from 'src/models/file.model';
 
 export interface ICategory extends IBase {
   categoryName: string;
-  categoryIcon?: IFile;
+  categoryIcon: IFile;
 }
