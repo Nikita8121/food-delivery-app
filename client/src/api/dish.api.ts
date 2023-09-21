@@ -9,33 +9,47 @@ import {
   useQuery,
 } from '@tanstack/react-query';
 import { IDish } from 'src/models/dish.model';
+import { getNextPaginationPage } from 'src/lib/react-query/utils';
 
-const url = 'dishes/';
+const url = 'dishes';
 
 const getDish = async (id: number) => {
-  const data = await api.get<DishDto[]>(`${url}dishes`, {
+  const data = await api.get<ResponseDto<DishDto[]>>(`${url}`, {
     params: {
       id,
-      populate: 'categories',
+      populate: {
+        image: true,
+        categories: {
+          populate: 'categoryIcon',
+        },
+        price: true,
+      },
     },
   });
-
-  return mapDish(data[0]);
+  console.log('getDishByCategory', data.data[0]);
+  console.log('mappedDish', mapDish(data.data[0]));
+  return mapDish(data.data[0]);
 };
 
 const getDishesByCategory = async (
   category: string,
   { page = 0, pageSize = 10 }: PaginationParams
 ) => {
-  const data = await api.get<ResponseDto<DishDto[]>>(`${url}dishes`, {
+  const data = await api.get<ResponseDto<DishDto[]>>(`${url}`, {
     params: {
-      page,
-      pageSize,
-      categories: {
-        categoryName: category,
+      populate: 'image, price',
+      pagination: {
+        page,
+        pageSize,
+      },
+      filters: {
+        categories: {
+          categoryName: category,
+        },
       },
     },
   });
+
   return mapDataWithPagination(
     mapMany(data.data, mapDish),
     data.meta?.pagination
@@ -58,6 +72,6 @@ export const useGetDishesByCategory = (
     queryFn: ({ pageParam = 0 }) =>
       getDishesByCategory(category, { page: pageParam, pageSize: 10 }),
     getNextPageParam: (lastPage, allPages) =>
-      (lastPage.pagination?.page as number) + 1,
+      getNextPaginationPage(lastPage.pagination),
     ...options,
   });

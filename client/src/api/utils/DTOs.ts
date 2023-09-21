@@ -52,7 +52,17 @@ export interface DishDto {
     description: string;
     cookingTimeText: string;
     calories: string;
-    categories: CategoryDto[];
+    categories: {
+      data: CategoryDto[];
+    };
+    price: {
+      id: number;
+      size: string;
+      price: string;
+    }[];
+    image: {
+      data: FileDto;
+    };
     createdAt: string;
     updatedAt: string;
   };

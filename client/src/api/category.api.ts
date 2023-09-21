@@ -4,7 +4,7 @@ import { CategoryDto, ResponseDto } from './utils/DTOs';
 import { UseQueryOptions, useQuery } from '@tanstack/react-query';
 import { ICategory } from 'src/models/category.model';
 
-const url = 'categories/';
+const url = 'categories';
 
 const mapCategories = (dto: CategoryDto[]) => {
   return dto.map((cat) => mapCategory(cat));

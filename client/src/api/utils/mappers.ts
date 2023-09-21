@@ -41,13 +41,29 @@ export const mapCategory = (dto: CategoryDto): ICategory => {
 };
 
 export const mapDish = (dto: DishDto): IDish => {
+  const mapPrice = (
+    priceDto: DishDto['attributes']['price'][0]
+  ): IDish['price'][0] => {
+    return {
+      id: priceDto.id,
+      size: priceDto.size,
+      price: priceDto.price,
+    };
+  };
+
+  console.log('image', dto.attributes.image?.data);
+  console.log('category', dto.attributes.categories?.data);
   return {
     id: dto.id,
     name: dto.attributes.name,
     description: dto.attributes.description,
     cookingTimeText: dto.attributes.cookingTimeText,
     calories: dto.attributes.calories,
-    categories: mapMany(dto.attributes.categories, mapCategory),
+    categories: dto.attributes.categories?.data
+      ? mapMany(dto.attributes.categories.data, mapCategory)
+      : undefined,
+    image: mapFile(dto.attributes.image.data),
+    price: mapMany(dto.attributes.price, mapPrice),
     createdAt: dto.attributes.createdAt,
     updatedAt: dto.attributes.updatedAt,
   };

@@ -15,6 +15,12 @@ export const Categories = ({ setCategory }: CategoriesProps) => {
   const [activeCategory, setActiveCategory] = useState('');
 
   useEffect(() => {
+    if (categories?.length) {
+      setActiveCategory(categories[0].categoryName);
+    }
+  }, [categories]);
+
+  useEffect(() => {
     setCategory(activeCategory);
   }, [activeCategory]);
 
